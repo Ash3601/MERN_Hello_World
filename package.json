@@ -1,0 +1,27 @@
+{
+  "name": "firstmernproject",
+  "version": "1.0.0",
+  "description": "An app that is connected with Mongo and uses React as FrontEnd & Node as Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ash3601/MERN_Hello_World.git"
+  },
+  "keywords": [
+    "MERN",
+    "React",
+    "Node",
+    "Mongo",
+    "Authentication",
+    "Login"
+  ],
+  "author": "Ashin Abbasi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ash3601/MERN_Hello_World/issues"
+  },
+  "homepage": "https://github.com/Ash3601/MERN_Hello_World#readme"
+}
