@@ -21,11 +21,11 @@ MongoDB, Expressjs, React/Redux, Nodejs
 
 > MERN is a fullstack implementation in MongoDB, Expressjs, React/Redux, Nodejs.
 
-MERN stack is the idea of using Javascript/Node for fullstack web development.
+MERN stack is the idea of using Javascript/Node/React for fullstack web development.
 
 ## clone or download
 ```terminal
-$ git clone https://github.com/amazingandyyy/mern.git
+$ git clone https://github.com/Ash3601/MERN_Hello_World.git
 $ npm i
 ```
 
@@ -78,8 +78,8 @@ $ echo "JWT_SECRET=YOUR_JWT_SECRET" >> ./server/src/.env
 
 ```terminal
 $ cd server   // go to server folder
-$ npm i       // npm install pacakges
-$ npm run dev // run it locally
+$ npm i      // npm install pacakges
+$ npm start // run it locally using nodemon
 $ npm run build // this will build the server code to es5 js codes and generate a dist file
 ```
 
@@ -96,12 +96,15 @@ $ pwd
 $ npm run deploy:heroku
 ```
 
+<!---
 ### After creating heroku
 
 remember to update the file of [client/webpack.prod.js](https://github.com/amazingandyyy/mern/blob/master/client/webpack.prod.js)
 ```javascript
  'API_URI': JSON.stringify('https://your-super-amazing-heroku-app.herokuapp.com')
 ```
+-->
+
 
 # Dependencies(tech-stacks)
 Client-side | Server-side
@@ -116,6 +119,8 @@ react-router-dom: ^4.2.2 | mongoose: ^4.7.4
 redux: ^3.7.2 | morgan: ^1.7.0
 redux-thunk: ^2.1.0 |
 
+
+<!----
 # Screenshots of this project
 
 User visit public and Home page
@@ -126,6 +131,8 @@ User can sign in or sign up
 
 After signing in user can go to account route and make request to token-protected API endpoint
 ![After signing in user can go to account route](http://i.imgur.com/FzLB51u.png)
+--->
+
 
 ## Standard
 
@@ -133,12 +140,12 @@ After signing in user can go to account route and make request to token-protecte
 
 ## BUGs or comments
 
-[Create new Issues](https://github.com/amazingandyyy/mern/issues) (preferred)
+[Create new Issues](https://github.com/Ash3601/MERN_Hello_World/issues) (preferred)
 
-Email Me: amazingandyyy@gmail.com (welcome, say hi)
+Email Me: abbasiashin0@gmail.com (welcome, say hi)
 
 ## Author
-[Amazingandyyy](https://amazingandyyy.com)
+[Ash360](https://ash3601.github.io/MyPortFolioWebsite/index.html)
 
 ### License
-[MIT](https://github.com/amazingandyyy/mern/blob/master/LICENSE)
+[MIT]
