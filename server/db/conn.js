@@ -6,7 +6,7 @@ mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndMod: false,
+    // useFindAndMod: false, // this is not supported
 }).then(()=>{
     console.log('Connection successful');
 }).catch(()=>{
