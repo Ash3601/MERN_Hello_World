@@ -48,13 +48,19 @@ router.post('/signin', async(req, res) => {
         return res.json({error: "Please fill all the required fields"});
     }
     try {
-    const user = await User.find();
+    const user = await User.findOne({email: email});
+    
     if (user) {
-        res.status(200).json({success: 
+        const isPasswordMatching = await bcrypt.compare(password, user.password);
+        if (isPasswordMatching)
+            {res.status(200).json({success: 
             "User login successful"
-        })
+        }) } else {
+            res.status(401).json({error: "Invalid username / password"})
+
+        }
     } else {
-        res.status(401).json({error: "Unauthorized access"})
+        res.status(401).json({error: "Email does not exist"})
     }
 } catch(err) {
     throw err;
