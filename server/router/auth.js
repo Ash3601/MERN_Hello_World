@@ -55,8 +55,8 @@ router.post("/signin", async (req, res) => {
 
     if (user) {
       const isPasswordMatching = await bcrypt.compare(password, user.password);
-      //   const token = await user.generateAuthToken(); // returns a promise
-      const token = "123456";
+      const token = await user.generateAuthToken(); // returns a promise
+      //   const token = "123456";
       if (isPasswordMatching) {
         res.cookie("jwttoken", "token", {
           expires: new Date(Date.now() + 25892000000),
