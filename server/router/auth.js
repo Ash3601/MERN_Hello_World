@@ -1,89 +1,86 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-require('../db/conn')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("../db/conn");
 
-const User = require('../model/userSchema')
+const User = require("../model/userSchema");
 
 // Middleware
 // Will be used to identify if the user is logged in or not
 const isUserLogged = (req, res, next) => {
-    next();
-}
+  next();
+};
 
 // Helper Methods
 function isRequestBodyEmpty(obj) {
-    for (var prop in obj) {
-        if (obj.hasOwnProperty(prop))
-            return false;
-    }
-    return JSON.stringify(obj) === JSON.stringify({});
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) return false;
+  }
+  return JSON.stringify(obj) === JSON.stringify({});
 }
 
-
 // Routes
-router.get('/', (req, res) => {
-    res.status(200)
-    return res.send('Hello World');
+router.get("/", (req, res) => {
+  res.status(200);
+  return res.send("Hello World");
 });
 
-router.get('/about', isUserLogged, (req, res) => {
-    res.send('Hello from about')
-})
+router.get("/about", isUserLogged, (req, res) => {
+  res.send("Hello from about");
+});
 
+router.get("/contact", (req, res) => {
+  res.send("");
+});
 
-router.get('/contact', (req, res) => {
-    res.send('')
-})
+router.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+  if (email === "" || password === "") {
+    res.status(422);
+    return res.json({
+      error: "Please fill the fields properly",
+    });
+  }
+  if (!email || !password) {
+    res.status(422);
+    return res.json({
+      error: "Please fill all the required fields",
+    });
+  }
+  try {
+    const user = await User.findOne({
+      email: email,
+    });
 
-router.post('/signin', async (req, res) => {
-    const {
-        email,
-        password
-    } = req.body;
-    if (email === '' || password === '') {
-        res.status(422);
-        return res.json({
-            error: "Please fill the fields properly"
+    if (user) {
+      const isPasswordMatching = await bcrypt.compare(password, user.password);
+      //   const token = await user.generateAuthToken(); // returns a promise
+      const token = "123456";
+      if (isPasswordMatching) {
+        res.cookie("jwttoken", "token", {
+          expires: new Date(Date.now() + 25892000000),
+          httpOnly: false,
+          secure: false,
         });
-    }
-    if (!email || !password) {
-        res.status(422);
-        return res.json({
-            error: "Please fill all the required fields"
+        res.status(200).json({
+          success: "User login successful",
         });
-    }
-    try {
-
-        const user = await User.findOne({
-            email: email
+      } else {
+        res.status(401).json({
+          error: "Invalid username / password",
         });
-
-        if (user) {
-            const isPasswordMatching = await bcrypt.compare(password, user.password);
-            const token = await user.generateAuthToken(); // returns a promise
-            if (isPasswordMatching) {
-                res.cookie('jwttoken', 'token', {expires: new Date(Date.now() + 25892000000), httpOnly: false, secure: false});
-                res.status(200).json({
-                    success: "User login successful"
-                })
-            } else {
-                res.status(401).json({
-                    error: "Invalid username / password"
-                })
-
-            }
-        } else {
-            res.status(401).json({
-                error: "Email does not exist"
-            })
-        }
-    } catch (err) {
-        throw err;
+      }
+    } else {
+      res.status(401).json({
+        error: "Email does not exist",
+      });
     }
-    // res.send('')
-})
+  } catch (err) {
+    throw err;
+  }
+  // res.send('')
+});
 
 // router.get('/signup', (req, res) => {
 //     res.send('')
@@ -133,65 +130,56 @@ router.post('/register', (req, res) => {
 */
 
 // Method 2: Using async await
-router.post('/register', async (req, res) => {
-    (req.body);
-    const {
-        name,
-        email,
-        phone,
-        work,
-        password,
-        cpassword
-    } = req.body;
-    if (isRequestBodyEmpty(req.body)) {
-        return res.status(400).send('Empty Body is not expected');
-    }
+router.post("/register", async (req, res) => {
+  req.body;
+  const { name, email, phone, work, password, cpassword } = req.body;
 
-    if (!name || !email || !phone || !work || !password || !cpassword) {
-        res.status(422);
-        return res.json({
-            error: "Please fill all the required fields"
-        });
-    }
+  if (isRequestBodyEmpty(req.body)) {
+    return res.status(400).send("Empty Body is not expected");
+  }
 
-    try {
-        const userExist = await User.findOne({
-            email: email
-        });
-        if (userExist) {
-            return res.status(409).json({
-                error: "Email already exists"
-            });
-        }
-        if (password !== cpassword) {
-            return res.status(400).json({
-                error: "Password and confirm password are not the same"
-            });
-        }
-        // encrypt the password is done in userSchema in db using pre method
-        const user = new User({
-            name,
-            email,
-            phone,
-            work,
-            password
-        });
-        const isRegisterSuccess = await user.save();
-        if (isRegisterSuccess) {
-            res.status(201).json({
-                message: "User registered successfully"
-            })
-        } else {
-            res.status(500).json({
-                error: "Failed to register user"
-            });
-        }
-    } catch (err) {
-        console.log('%cauth.js line:152 token', 'color: #007acc;', token);
-        (err);
-    }
-    // await const userExist = User.findOne({email: email});
-})
+  if (!name || !email || !phone || !password || !cpassword) {
+    res.status(422);
+    return res.json({
+      error: "Please fill all the required fields",
+    });
+  }
 
+  try {
+    const userExist = await User.findOne({
+      email: email,
+    });
+    if (userExist) {
+      return res.status(409).json({
+        error: "Email already exists",
+      });
+    }
+    if (password !== cpassword) {
+      return res.status(400).json({
+        error: "Password and confirm password are not the same",
+      });
+    }
+    // encrypt the password is done in userSchema in db using pre method
+    const user = new User({
+      name,
+      email,
+      phone,
+      work,
+      password,
+    });
+    const isRegisterSuccess = await user.save();
+    if (isRegisterSuccess) {
+      res.status(201).json({
+        message: "User registered successfully",
+      });
+    } else {
+      res.status(500).json({
+        error: "Failed to register user",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "../assets/css/Login.css";
 export const Login = () => {
   return (
     <div className="container w-25 p-4">

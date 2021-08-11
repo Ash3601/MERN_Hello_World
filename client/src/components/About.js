@@ -3,12 +3,12 @@ import dp from "../assets/images/dp.jpg";
 
 const About = () => {
   return (
-    <>
-      <h2>About Me</h2>
-      <div id="" className="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <div className="img-box">
+    <div className="container">
+      <h2 style={{ color: "white" }}>About Me</h2>
+      <div id="" className="">
+        <div className="text-center">
+          <div className="">
+            <div className="img-fluid">
               <img src={dp} alt="" />
             </div>
             <p className="testimonial lead">
@@ -23,7 +23,7 @@ const About = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
